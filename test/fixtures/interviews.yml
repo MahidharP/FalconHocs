@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  slot: 2016-12-14 20:04:11
+  type: 
+  description: MyText
+  remarks: MyText
+  student_id: 1
+  user_id: 1
+  interviewer_id: 1
+
+two:
+  slot: 2016-12-14 20:04:11
+  type: 
+  description: MyText
+  remarks: MyText
+  student_id: 1
+  user_id: 1
+  interviewer_id: 1

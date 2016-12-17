@@ -1,0 +1,66 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+    <strong>Slot:</strong>
+    <%= @interview.slot %>
+</p>
+
+<p>
+    <strong>Type:</strong>
+    <%= @interview.kind %>
+</p>
+
+<p>
+    <strong>Description:</strong>
+    <%= @interview.description %>
+</p>
+
+<p>
+    <strong>Remarks:</strong>
+    <%= @interview.remarks %>
+</p>
+
+<p>
+    <strong>Student:</strong>
+    <%= @interview.student.name %>
+</p>
+
+<p>
+    <strong>User:</strong>
+    <%= @interview.user_id %>
+</p>
+
+<p>
+    <strong>Interviewer:</strong>
+    <%= @interview.interviewer_id %>
+</p>
+
+<p>
+    <strong>
+        Interview_On:
+    </strong>
+    <%= @interview.question_category_ids %>
+</p>
+
+<h3>
+    Interview Questions</h3>
+<% @interview.interview_questions.all.each do |interview_question| %>
+<ul>
+    <li>
+        <%= form_for interview_question do |f| %>
+        <%= interview_question.question.title%>
+        <%= f.radio_button :responce, "satisfied" %>
+        Satisfied
+        <%= f.radio_button :responce, "not-satisfied"  %>
+        Not Satisfied
+        <%= f.radio_button :responce, "not-answered" %>
+        Not Answered
+        <%= f.submit %>
+        <% end %>
+    </li>
+</ul>
+<% end %>
+
+<%= link_to 'Edit', edit_interview_path(@interview) %>
+|
+<%= link_to 'Back', interviews_path %>

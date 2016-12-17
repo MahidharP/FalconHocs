@@ -1,0 +1,57 @@
+<%= form_for(@interview) do |f| %>
+<% if @interview.errors.any? %>
+<div id="error_explanation">
+    <h2><%= pluralize(@interview.errors.count, "error") %>
+        prohibited this interview from being saved:</h2>
+
+    <ul>
+        <% @interview.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+        <% end %>
+    </ul>
+</div>
+<% end %>
+
+<div class="field">
+    <%= f.label :slot %><br>
+    <br/>
+    <%= f.datetime_select :slot %>
+</div><br>
+<div class="field">
+    <%= f.label :interview_type %><br>
+    <%= f.radio_button :kind, "Online" %>On-line
+    <%= f.radio_button :kind, "Offline" %>Off-line
+</div><br>
+<div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_area :description %>
+</div><br>
+<div class="field">
+    <%= f.label :remarks %><br>
+    <%= f.text_area :remarks %>
+</div><br>
+<div class="field">
+    <%= f.label :student_id %><br>
+    <%= f.collection_select :student_id, Student.all, :id, :name, prompt: "Select Student" %>
+</div><br>
+<div class="field">
+    <%= f.label :user_id %><br>
+    <%= f.number_field :user_id %>
+</div><br>
+<div class="field">
+    <%= f.label :interviewer_id %><br>
+    <%= f.number_field :interviewer_id %>
+</div><br>
+<div class="field">
+    <%= f.label :question_category %>
+    <br>
+    <%= f.collection_check_boxes :question_category_ids, QuestionCategory.all, :id, :name do |b| %>
+    <%= b.check_box %>
+    <%= b.label %>
+    <% end %>
+</div><br>
+
+<div class="actions">
+    <%= f.submit %>
+</div>
+<% end %>

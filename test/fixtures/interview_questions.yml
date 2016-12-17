@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  interview_id: 1
+  question_id: 1
+  responce: MyString
+
+two:
+  interview_id: 1
+  question_id: 1
+  responce: MyString
