@@ -39,8 +39,8 @@
     <%= f.number_field :user_id %>
 </div><br>
 <div class="field">
-    <%= f.label :interviewer_id %><br>
-    <%= f.number_field :interviewer_id %>
+    <%= f.label :Select_the_interviewer %><br>
+    <%= f.collection_select :interviewer_id, User.all, :id, :email, prompt: "Select an Interviewer" %>
 </div><br>
 <div class="field">
     <%= f.label :question_category %>
@@ -50,6 +50,13 @@
     <%= b.label %>
     <% end %>
 </div><br>
+
+<div class="field">
+    <%= f.label :Select_level_of_Interview %><br>
+    <%= f.radio_button :level, "easy"%>Easy
+    <%= f.radio_button :level, "medium"%>Medium
+    <%= f.radio_button :level, "hard"%>Hard
+</div>
 
 <div class="actions">
     <%= f.submit %>

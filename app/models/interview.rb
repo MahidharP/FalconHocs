@@ -1,6 +1,7 @@
 class Interview < ActiveRecord::Base
     belongs_to :student
     belongs_to :user
+    belongs_to :interviewer, :class_name => "User"
 
     has_many :interview_question_categories
     has_many :question_categories, through: :interview_question_categories
@@ -10,22 +11,37 @@ class Interview < ActiveRecord::Base
 
     after_create :load_questions
 
+    validates_presence_of :level
+
 
 
     def load_questions
-      quest = self.question_categories.pluck(:id)
-      quest.each do |que|
-          question = Question.where('question_category_id == ?', que)
-          questi = question.order('RANDOM()').limit(5)
-          questi.each do |q|
-              int = InterviewQuestion.new
-              int.question_id = q.id
-              int.interview_id = self.id
-              int.save
-          end
-       end
+          exam = {}
+              if self.level == "medium"
+                  exam["easy"] = 6
+                  exam["medium"] = 14
+              elsif self.level == "hard"
+                  exam["easy"] = 4
+                  exam["medium"] = 8
+                  exam["hard"] = 8
+              elsif self.level== "easy"
+                  exam["easy"] = 20
+              end
+              question_category_ids = self.question_categories.pluck(:id)
+              question_category_ids.each do |category_id|
+                   exam.each do |key,value|
+                       questions = Question.where('question_category_id = ? AND level = ?', category_id, key).order("RANDOM()").limit(value)
+                       questions.each do |question|
+                             int = InterviewQuestion.new
+                             int.question_id = question.id
+                             int.interview_id = self.id
+                             int.save
+                       end
+                   end
+              end
 
-      #Using Comparision 
+
+      #Using Comparision
 
       # quest.each do |ques|
       # if ques == 1
