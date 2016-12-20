@@ -20,6 +20,60 @@
     <%= @question.question_category.name %>
 </p>
 
+<h3>
+    <i>
+        <u>
+            Stats from students to this question
+        </u>
+    </i>
+</h3>
+
+<h4>
+    Number of students who answered this question :-
+    <%= @question.interview_questions.where('responce = ?', "satisfied").count %>
+</h4>
+<ul>
+    <% @question.interview_questions.where('responce = ?', "satisfied").each do |interview_question| %>
+    <li>
+        <em>
+            <%= interview_question.interview.student.try(:name).capitalize %>
+        </em>
+    </li>
+    <% end %>
+</ul>
+
+<h4>
+
+    Number of students who answered partially to this question :-
+    <%= @question.interview_questions.where('responce = ?', "not-satisfied").count %>
+</h4>
+<ul>
+    <% @question.interview_questions.where('responce = ?', "not-satisfied").each do |interview_question| %>
+    <li>
+        <em>
+            <%= interview_question.interview.student.try(:name).capitalize %>
+        </em>
+    </li>
+    <% end %>
+</ul>
+
+<h4>
+
+    Number of students who haven't answered this question :-
+    <%= @question.interview_questions.where('responce = ?', "not-answered").count %>
+</h4>
+<ul>
+    <% @question.interview_questions.where('responce = ?', "not-answered").each do |interview_question| %>
+    <li>
+        <em>
+            <%= interview_question.interview.student.try(:name).capitalize %>
+        </em>
+    </li>
+    <% end %>
+</ul>
+
+<br/>
+
 <%= link_to 'Edit', edit_question_path(@question) %>
 |
 <%= link_to 'Back', questions_path %>

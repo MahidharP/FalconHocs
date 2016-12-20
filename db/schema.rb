@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161219052057) do
+ActiveRecord::Schema.define(version: 20161220083034) do
 
   create_table "interview_question_categories", force: :cascade do |t|
     t.integer  "interview_id"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20161219052057) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.string   "level"
+    t.float    "marks"
   end
 
   create_table "permissions", force: :cascade do |t|

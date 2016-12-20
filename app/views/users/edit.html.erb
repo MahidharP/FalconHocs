@@ -1,0 +1,29 @@
+<h3>Edit User</h3>
+<%= form_for @user do |f| %>
+<% if @user.errors.any? %>
+<h4>These errors proibited the form being saved:</h4>
+<ul style="color:red;">
+    <% @user.errors.full_messages.each do |msg| %>
+    <li><%= msg %></li>
+    <% end %>
+</ul>
+<% end %>
+<label>College</label><br/>
+<%= f.collection_select :college_id, College.all, :id, :name, prompt: "Select College" %><br/>
+
+<%= f.label :username %><br/>
+<%= f.email_field :username %><br/>
+
+<%= f.label :email %><br/>
+<%= f.email_field :email %><br/>
+
+<%= f.label :password %><br/>
+<%= f.text_field :password %><br/>
+
+<%= f.label :roles %><br/>
+<%= f.collection_check_boxes :role_ids, Role.all, :id, :name %><br/>
+
+<%= f.submit %>
+<% end %>
+
+<%= link_to "Home", users_path %>

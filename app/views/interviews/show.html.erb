@@ -16,11 +16,6 @@
 </p>
 
 <p>
-    <strong>Remarks:</strong>
-    <%= @interview.remarks %>
-</p>
-
-<p>
     <strong>Student:</strong>
     <%= @interview.student.try(:name) %>
 </p>
@@ -42,6 +37,32 @@
     <%= @interview.question_category_ids %>
 </p>
 
+<% sum = 0
+  if i = @interview.interview_questions.where('responce = ?', "satisfied").count
+      sum+=i
+  end
+  if j = @interview.interview_questions.where('responce = ?', "not-satisfied").count
+      j = j/2.to_f
+      sum+=j
+  end
+%>
+<p>
+    <strong>
+        Marks:-
+    </strong>
+    <b>
+        <em>
+            <% @interview.update(marks:sum.to_f)%>
+            <%= @interview.marks %>/<%= @interview.interview_questions.count %>
+        </em>
+    </b>
+</p>
+
+<p>
+    <strong>Remarks:</strong>
+    <%= @interview.remarks %>
+</p>
+
 <h3>
     Interview Questions</h3>
 <% @interview.interview_questions.all.each do |interview_question| %>
@@ -55,13 +76,23 @@
         Not Satisfied
         <%= f.radio_button :responce, "not-answered" %>
         Not Answered
-
+        <% if interview_question.responce.nil? %>
+        <%= f.submit %>
         <% end %>
-
+        <% end %>
     </li>
 </ul>
 <% end %>
-<%= submit_tag %>
+<% if @interview.remarks.empty? %>
+<%= form_for(@interview) do |f| %>
+<div class="field">
+    <%= f.label :remarks %><br>
+    <%= f.text_area :remarks %><br>
+
+    <%= f.submit %>
+</div>
+<% end %>
+<% end %>
 
 <%= link_to 'Edit', edit_interview_path(@interview) %>
 |

@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
     has_many :permissions
     has_many :roles, through: :permissions
 
+    has_many :interviews
+
     def role?(role)
         roles.pluck(:name).include? role
     end

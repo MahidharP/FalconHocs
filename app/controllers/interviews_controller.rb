@@ -6,7 +6,7 @@ class InterviewsController < ApplicationController
     # GET /interviews
     # GET /interviews.json
     def index
-        @interviews = Interview.all
+        @interviews = current_user.roles.first.name == "admin" ? Interview.all  :  Interview.where("interviewer_id =? ", current_user.id)
     end
 
     # GET /interviews/1
@@ -70,6 +70,6 @@ class InterviewsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def interview_params
-        params.require(:interview).permit(:slot, :kind, :description, :remarks, :student_id, :user_id, :interviewer_id, :level, question_category_ids: [])
+        params.require(:interview).permit(:slot, :kind, :description, :remarks, :student_id, :user_id, :interviewer_id, :level, :marks, question_category_ids: [])
     end
 end
