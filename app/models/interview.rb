@@ -27,7 +27,7 @@ class Interview < ActiveRecord::Base
               elsif self.level== "easy"
                   exam["easy"] = 20
               end
-              question_category_ids = self.question_categories.pluck(:id)
+              question_category_ids = self.question_categories.pluck(:id) #Checks with the
               question_category_ids.each do |category_id|
                    exam.each do |key,value|
                        questions = Question.where('question_category_id = ? AND level = ?', category_id, key).order("RANDOM()").limit(value)
