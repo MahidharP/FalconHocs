@@ -6,6 +6,8 @@ class Ability
             can :manage, :all
         elsif user.role? 'moderator'
             can :read, [Interview]
+            can [:new], [Interview]
+            can [:create], [Interview]
         end
         # Define abilities for the passed in user here. For example:
         #

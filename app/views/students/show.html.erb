@@ -15,9 +15,9 @@
 <ul>
     <% @student.interviews.each do |interview| %>
     <li>
-        <%= interview.slot  %>
+        <%= interview.start_slot.strftime("%B %e, %Y at %I:%M %p")  %>
         ---
-        <%= link_to interview.student.try(:name), interview_path(@student.interview_ids) %>
+        <%= link_to "Interview", interview_path(@student.interview_ids) %>
         --
         <%= interview.marks %>
     </li>

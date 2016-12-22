@@ -8,11 +8,9 @@
     <% end %>
 </ul>
 <% end %>
-<label>College</label><br/>
-<%= f.collection_select :college_id, College.all, :id, :name, prompt: "Select College" %><br/>
 
 <%= f.label :username %><br/>
-<%= f.email_field :username %><br/>
+<%= f.text_field :username %><br/>
 
 <%= f.label :email %><br/>
 <%= f.email_field :email %><br/>

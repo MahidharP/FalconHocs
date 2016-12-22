@@ -5,11 +5,13 @@
 <table>
     <thead>
         <tr>
-            <th>Slot</th>
+            <th>Start Slot</th>
+            <th>End Slot</th>
             <th>Type</th>
             <th>Description</th>
             <th>Remarks</th>
             <th>Student</th>
+            <th>Marks</th>
             <th>Interviewer</th>
             <th colspan="3"></th>
         </tr>
@@ -18,20 +20,180 @@
     <tbody>
         <% @interviews.each do |interview| %>
         <tr>
-            <td><%= interview.slot %></td>
+            <td><%= interview.start_slot.strftime("%B %e, %Y at %I:%M %p") %></td>
+            <td><%= interview.end_slot.strftime("%B %e, %Y at %I:%M %p") %></td>
             <td><%= interview.kind %></td>
             <td><%= interview.description %></td>
             <td><%= interview.remarks %></td>
             <td><%= interview.student.try(:name) %></td>
+            <td><%= interview.marks %></td>
             <td><%= interview.interviewer.try(:username) %></td>
             <td><%= link_to 'Show', interview %></td>
+            <% if current_user.role? "admin" %>
             <td><%= link_to 'Edit', edit_interview_path(interview) %></td>
             <td><%= link_to 'Destroy', interview, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <% end %>
         </tr>
         <% end %>
     </tbody>
 </table>
-
-<br>
-
+</br>
 <%= link_to 'New Interview', new_interview_path %>
+<% if current_user.role? "admin" %>
+<script>
+$(function () {
+    $("#accordion").accordion({collapsible: true});
+});
+</script>
+<div id="accordion">
+<h3>
+    <em>
+        Stats Of Interviews
+    </em>
+</h3>
+<div>
+    <b>
+        <u>
+            Completed Interviews:-
+            <%= Interview.where('start_slot < ? AND end_slot < ?', DateTime.now, DateTime.now ).count %>
+        </u>
+    </b>
+    <table>
+        <thead>
+            <tr>
+                <th>Start Slot</th>
+                <th>End Slot</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Remarks</th>
+                <th>Student</th>
+                <th>Marks</th>
+                <th>Interviewer</th>
+                <th colspan="3"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% Interview.where('start_slot < ? AND end_slot < ?', DateTime.now, DateTime.now).each do |interview| %>
+            <tr>
+                <td><%= interview.start_slot.strftime("%B %e, %Y at %I:%M %p") %></td>
+                <td><%= interview.end_slot.strftime("%B %e, %Y at %I:%M %p") %></td>
+                <td><%= interview.kind %></td>
+                <td><%= interview.description %></td>
+                <td><%= interview.remarks %></td>
+                <td><%= interview.student.try(:name) %></td>
+                <td><%= interview.marks %></td>
+                <td><%= interview.interviewer.try(:username) %></td>
+                <td><%= link_to 'Show', interview %></td>
+                <% if current_user.role? "admin" %>
+                <td><%= link_to 'Edit', edit_interview_path(interview) %></td>
+                <td><%= link_to 'Destroy', interview, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                <% end %>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+    <b>
+        <u>
+            Upcoming Interviews:-
+            <%= Interview.where('start_slot > ? AND end_slot > ?', DateTime.now, DateTime.now ).count %>
+        </u>
+    </b>
+    <table>
+        <thead>
+            <tr>
+                <th>Start Slot</th>
+                <th>End Slot</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Remarks</th>
+                <th>Student</th>
+                <th>Marks</th>
+                <th>Interviewer</th>
+                <th colspan="3"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% Interview.where('start_slot > ?', DateTime.now ).each do |interview| %>
+            <tr>
+                <td><%= interview.start_slot.strftime("%B %e, %Y at %I:%M %p") %></td>
+                <td><%= interview.end_slot.strftime("%B %e, %Y at %I:%M %p") %></td>
+                <td><%= interview.kind %></td>
+                <td><%= interview.description %></td>
+                <td><%= interview.remarks %></td>
+                <td><%= interview.student.try(:name) %></td>
+                <td><%= interview.marks %></td>
+                <td><%= interview.interviewer.try(:username) %></td>
+                <td><%= link_to 'Show', interview %></td>
+                <% if current_user.role? "admin" %>
+                <td><%= link_to 'Edit', edit_interview_path(interview) %></td>
+                <td><%= link_to 'Destroy', interview, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                <% end %>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+
+    <b>
+        <u>
+            On-Going Interviews:-
+            <%= Interview.where('start_slot <= ? AND end_slot >= ?',  DateTime.now, DateTime.now ).count %>
+        </u>
+    </b>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Start slot</th>
+                <th>End slot</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Remarks</th>
+                <th>Student</th>
+                <th>Marks</th>
+                <th>Interviewer</th>
+                <th colspan="3"></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% Interview.where('start_slot <= ? AND end_slot >= ?',  DateTime.now, DateTime.now ).each do |interview| %>
+            <tr>
+                <td><%= interview.start_slot.strftime("%B %e, %Y at %I:%M %p") %></td>
+                <td><%= interview.end_slot.strftime("%B %e, %Y at %I:%M %p") %></td>
+                <td><%= interview.kind %></td>
+                <td><%= interview.description %></td>
+                <td><%= interview.remarks %></td>
+                <td><%= interview.student.try(:name) %></td>
+                <td><%= interview.marks %></td>
+                <td><%= interview.interviewer.try(:username) %></td>
+                <td><%= link_to 'Show', interview %></td>
+                <% if current_user.role? "admin" %>
+                <td><%= link_to 'Edit', edit_interview_path(interview) %></td>
+                <td><%= link_to 'Destroy', interview, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                <% end %>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
+</div>
+
+<% end %>
+
+<script>
+$(document).ready(function () {
+    $('#calendar').fullCalendar({
+        defaultDate: '<%= Date.today.strftime("%Y-%m-%d") %>', eventLimit: true, // allow "more" link when too many events
+        events: [<% Interview.where('start_slot > ?', DateTime.now ).each do |interview| %>
+            {
+                title: "<%= interview.student.try(:name) %>",
+                start: '<%= interview.start_slot.strftime("%Y-%m-%d") %>',
+                end: '<%= interview.end_slot.strftime("%Y-%m-%d") %>'
+            }
+            <% end %>
+            ]
+    });
+});
+</script>
+
+<div id="calendar"></div>
