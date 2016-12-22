@@ -184,14 +184,15 @@ $(function () {
 $(document).ready(function () {
     $('#calendar').fullCalendar({
         defaultDate: '<%= Date.today.strftime("%Y-%m-%d") %>', eventLimit: true, // allow "more" link when too many events
-        events: [<% Interview.where('start_slot > ?', DateTime.now ).each do |interview| %>
+        events: [
+            <% Interview.where('start_slot > ?', DateTime.now ).each do |interview| %>
             {
                 title: "<%= interview.student.try(:name) %>",
                 start: '<%= interview.start_slot.strftime("%Y-%m-%d") %>',
-                end: '<%= interview.end_slot.strftime("%Y-%m-%d") %>'
-            }
+                end: '<%= interview.end_slot %>'
+            },
             <% end %>
-            ]
+        ]
     });
 });
 </script>
